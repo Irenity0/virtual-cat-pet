@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐾 Virtual Pet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+<link rel="icon" href="data:image/svg+xml,
+  %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E
+    %3Ctext y='85' font-size='90'%3E🐱%3C/text%3E
+  %3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="h-screen overflow-hidden">
+    <!-- Corner Icons -->
+    <div class="absolute top-4 right-4 flex gap-2 z-10">
+        <!-- Settings Button -->
+        <button id="settingsBtn" class="corner-btn btn-primary flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+        </button>
+        
+        <!-- Help Button -->
+        <button id="helpBtn" class="corner-btn btn-secondary flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="h-screen flex flex-col items-center justify-center px-4 pb-8">
+        <!-- Title -->
+        <div class="text-center mb-6">
+            <h1 id="petTitle" class="text-4xl font-bold mb-2" style="color: #4B3F3F;">
+                🐾 Your Pet
+            </h1>
+        </div>
+
+        <!-- Pet Display Card -->
+        <div class="mb-8">
+            <div class="card-pet p-8 shadow-xl rounded-3xl flex items-center justify-center">
+                <div class="text-center w-full">
+                    <!-- Pet Avatar -->
+                    <div class="flex justify-center mb-6">
+                        <img id="petAvatar" src="cat_happy.png" alt="Your pet" class="pet-avatar object-contain">
+                    </div>
+
+                    <!-- Mood & Hunger -->
+                    <div class="space-y-4">
+                        <p class="text-lg font-semibold capitalize">
+                            Mood: <span id="moodText" style="color: #D1F2EB;">happy</span>
+                        </p>
+
+                        <!-- Hunger Bar -->
+                        <div class="space-y-2">
+                            <p class="text-sm">
+                                Hunger: <span id="hungerText">100</span>%
+                            </p>
+                            <div class="hunger-bar">
+                                <div id="hungerFill" class="hunger-fill" style="width: 100%; background-color: #D1F2EB;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feed Button -->
+        <button id="feedBtn" class="btn-primary text-xl font-bold py-4 px-8 rounded-full shadow-xl transform transition-all duration-200">
+            <span class="flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+                </svg>
+                Feed Me!
+                <svg class="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z"></path>
+                </svg>
+            </span>
+        </button>
+
+        <!-- Stats Footer -->
+        <div class="mt-6 text-center">
+            <p class="text-sm">
+                Last fed: <span id="lastFedTime">--:--:--</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold" style="color: #4B3F3F;">Pet Settings</h2>
+                <button id="closeSettings" class="text-2xl" style="color: #333333;">&times;</button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="text-sm font-medium block mb-2">Pet Name:</label>
+                    <div class="flex gap-2">
+                        <input id="nameInput" type="text" placeholder="Enter your pet's name..." 
+                               class="flex-1 px-3 py-2 border-2 rounded-lg" 
+                               style="border-color: #FFBCBC; font-family: 'Sour Gummy', cursive;">
+                        <button id="saveNameBtn" class="btn-primary px-4 py-2 rounded-lg">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content" style="border-color: #D1F2EB;">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold" style="color: #4B3F3F;">Pet Care Tips</h2>
+                <button id="closeHelp" class="text-2xl" style="color: #333333;">&times;</button>
+            </div>
+            <div class="space-y-3 text-sm">
+                <p>🍽️ <strong>Feeding:</strong> Your pet gets hungry over time - feed regularly!</p>
+                <p>😊 <strong>Moods:</strong> Happy (70-100%), Neutral (30-69%), Sad (0-29%)</p>
+                <p>💾 <strong>Saves:</strong> Everything saves automatically when you leave</p>
+                <p>🎵 <strong>Sounds:</strong> Click buttons for satisfying audio feedback</p>
+                <p>❤️ <strong>Love:</strong> The more you care, the happier your pet becomes!</p>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
